@@ -10,9 +10,10 @@ thesum = 0
 #print(commands)
 
 for line in input_data:
-  
+
     
     commands = []
+    notCommands = []
     enable = True
     eol = False
     
@@ -34,8 +35,13 @@ for line in input_data:
         else:
             x = re.search("do\(\)",line)
             if(x):
+                #debug
+                parse = slice(0,x.start())            
+                news = re.findall("mul\(\d+,\d+\)",line[parse])
+                notCommands.append(news)
+                #debug
                 enable = True
-                parse = slice(x.end(),len(line))            
+                parse = slice(x.end(),len(line))                            
                 line = line[parse]
             else:
                 eol = True
@@ -44,6 +50,11 @@ for line in input_data:
  
   # commands = re.findall("mul[(]\d+,\d+[)]",line)
     for sett in commands:
+       for mul in sett:
+          factors = re.findall("\d+",mul)
+          thesum += int(factors[0]) * int(factors[1])
+
+    for sett in notCommands:
        for mul in sett:
           factors = re.findall("\d+",mul)
           thesum += int(factors[0]) * int(factors[1])
