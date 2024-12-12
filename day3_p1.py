@@ -5,9 +5,11 @@ with open("input_day3_p1.txt", "r") as file:
 #with open("test.txt", "r") as file:
   input_data = file.readlines()
 thesum = 0
+theosum = 0
 #print(input_data[0])
 #commands = re.findall("mul[(]\d+,\d+[)]",input_data[0])
 #print(commands)
+#input_data = re.sub(r"don't\(\).*?(?:do\(\)|$)", "", input_data, flags=re.DOTALL)
 
 for line in input_data:
 
@@ -16,7 +18,7 @@ for line in input_data:
     notCommands = []
     enable = True
     eol = False
-    
+    origLine=line
     while(not eol):
     
         if(enable):
@@ -48,15 +50,24 @@ for line in input_data:
     #sett = re.findall("mul[(]\d+,\d+[)]",line)        
             
  
-  # commands = re.findall("mul[(]\d+,\d+[)]",line)
+    origCommands = re.findall("mul[(]\d+,\d+[)]",origLine)
     for sett in commands:
        for mul in sett:
           factors = re.findall("\d+",mul)
           thesum += int(factors[0]) * int(factors[1])
 
-    for sett in notCommands:
-       for mul in sett:
-          factors = re.findall("\d+",mul)
+    for nsett in notCommands:
+       for nmul in nsett:
+          factors = re.findall("\d+",nmul)
           thesum += int(factors[0]) * int(factors[1])
 
+    
+    for osett in origCommands:
+        factors = re.findall("\d+",osett)
+        theosum += int(factors[0]) * int(factors[1])
+
+
 print("Sum is ",thesum)
+print("oSum is ",theosum)
+#141,441,084 current no filter but going through logic
+#170,807,108 correct all
